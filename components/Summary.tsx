@@ -12,7 +12,7 @@ const Summary: React.FC<SummaryProps> = ({ settlements }) => {
   return (
     <Card>
       <div className="p-4 sm:p-6">
-        <h2 className="text-xl font-semibold mb-4">สรุปยอด - ใครต้องจ่ายใคร</h2>
+        <h2 className="text-xl font-semibold mb-4">สรุปว่าใครต้องจ่ายใคร?</h2>
         {settlements.length > 0 ? (
           <ul className="space-y-3">
             {settlements.map((settlement, index) => (
@@ -29,7 +29,7 @@ const Summary: React.FC<SummaryProps> = ({ settlements }) => {
             ))}
           </ul>
         ) : (
-          <p className="text-text-secondary">ยังไม่มีรายการที่ต้องชำระ เพิ่มค่าใช้จ่ายเพื่อดูสรุป</p>
+          <p className="text-text-secondary">เพิ่มสมาชิก แล้วเพิ่มค่าใช้จ่าย เพื่อดูสรุป</p>
         )}
       </div>
     </Card>
