@@ -89,11 +89,11 @@ const BillPage: React.FC = () => {
       );
   
       if (isMemberInvolved) {
-        alert("ไม่สามารถลบสมาชิกได้ เนื่องจากมีส่วนร่วมในค่าใช้จ่ายอย่างน้อยหนึ่งรายการ กรุณาแก้ไขรายการค่าใช้จ่ายเพื่อนำสมาชิกคนนี้ออกก่อน");
+        alert("ไม่สามารถลบสมาชิกที่มีค่าใช้จ่ายได้ กรุณาแก้ไขรายการค่าใช้จ่ายก่อน เพื่อลบสมาชิก");
         return;
       }
   
-      if (window.confirm("คุณแน่ใจหรือไม่ว่าต้องการลบสมาชิกคนนี้?")) {
+      if (window.confirm("ต้องการลบสมาชิกคนนี้ใช่ไหม?")) {
         const updatedMembers = bill.members.filter(m => m.id !== memberId);
         updateBill({ ...bill, members: updatedMembers });
       }
@@ -115,7 +115,7 @@ const BillPage: React.FC = () => {
   };
 
   const deleteExpense = (expenseId: string) => {
-    if (bill && window.confirm("คุณแน่ใจหรือไม่ว่าต้องการลบค่าใช้จ่ายนี้?")) {
+    if (bill && window.confirm("ต้องการลบค่าใช้จ่ายนี้ใช่ไหม?")) {
       const updatedExpenses = bill.expenses.filter(e => e.id !== expenseId);
       updateBill({ ...bill, expenses: updatedExpenses });
     }
@@ -146,7 +146,7 @@ const BillPage: React.FC = () => {
         <div className="flex items-center gap-2 flex-shrink-0">
             <Button onClick={copyLink} variant="outline" className="flex items-center gap-2 w-full sm:w-auto justify-center">
                 <LinkIcon className="h-5 w-5"/>
-                {copied ? 'คัดลอกลิงก์แล้ว!' : 'แชร์บิล'}
+                {copied ? 'คัดลอกลิงก์แล้ว!' : 'แชร์บิลให้เพื่อน'}
             </Button>
         </div>
       </div>

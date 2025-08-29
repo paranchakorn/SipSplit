@@ -33,11 +33,11 @@ const HomePage: React.FC = () => {
         <Card className="w-full">
             <div className="p-6 sm:p-8 text-center">
                 <h1 className="text-3xl sm:text-4xl font-bold text-primary mb-2">Sip & Split</h1>
-                <p className="text-base sm:text-lg text-text-secondary mb-8">สร้างบิลและหารค่าใช้จ่ายร่วมกับเพื่อนๆ ได้อย่างง่ายดาย</p>
+                <p className="text-base sm:text-lg text-text-secondary mb-8">สร้างบิลและหารค่าใช้จ่าย กินไม่เท่ากัน ก็หารไม่เท่ากันได้ อิอิ</p>
                 <div className="space-y-4">
                     <Input 
                         type="text"
-                        placeholder="ใส่ชื่อบิล (เช่น 'ทริปเที่ยวทะเล')"
+                        placeholder="ตั้งชื่อบิลให้หน่อย เช่น คืนวันศุกร์ 29 สิงหา"
                         value={billTitle}
                         onChange={(e) => setBillTitle(e.target.value)}
                         onKeyDown={(e) => e.key === 'Enter' && handleCreateBill()}
