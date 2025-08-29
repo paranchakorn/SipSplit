@@ -23,7 +23,7 @@ const ExpenseList: React.FC<ExpenseListProps> = ({ expenses, members, onEdit, on
             {expenses.map(expense => {
               const payer = getMember(expense.paidById);
               return (
-                <div key={expense.id} className="p-4 border border-border rounded-lg">
+                <div key={expense.id} className="p-4 border border-border">
                   <div className="flex flex-col sm:flex-row justify-between items-start gap-2">
                     <div className="flex-1 pr-4 w-full">
                       <p className="font-semibold text-lg break-words">{expense.description}</p>
@@ -37,11 +37,11 @@ const ExpenseList: React.FC<ExpenseListProps> = ({ expenses, members, onEdit, on
                           {expense.amount.toFixed(2)}
                       </p>
                       <div className="flex items-center gap-2">
-                          <button onClick={() => onEdit(expense)} aria-label={`แก้ไข ${expense.description}`} className="p-1 text-text-secondary hover:text-primary rounded-full hover:bg-border transition-colors">
-                              <PencilSquareIcon className="h-5 w-5" />
+                          <button onClick={() => onEdit(expense)} aria-label={`แก้ไข ${expense.description}`} className="p-2 text-text-secondary hover:text-primary hover:bg-border transition-colors">
+                              <PencilSquareIcon className="h-6 w-6" />
                           </button>
-                          <button onClick={() => onDelete(expense.id)} aria-label={`ลบ ${expense.description}`} className="p-1 text-text-secondary hover:text-red-400 rounded-full hover:bg-red-900/50 transition-colors">
-                              <TrashIcon className="h-5 w-5" />
+                          <button onClick={() => onDelete(expense.id)} aria-label={`ลบ ${expense.description}`} className="p-2 text-text-secondary hover:text-red-400 hover:bg-red-900/50 transition-colors">
+                              <TrashIcon className="h-6 w-6" />
                           </button>
                       </div>
                     </div>
@@ -49,7 +49,7 @@ const ExpenseList: React.FC<ExpenseListProps> = ({ expenses, members, onEdit, on
                   {expense.participants.length > 0 && (
                       <div className="mt-3 pt-3 border-t border-border">
                           <div className="text-sm text-text-secondary flex items-start gap-2">
-                             <UserIcon className="h-4 w-4 mt-1.5 flex-shrink-0" />
+                             <UserIcon className="h-5 w-5 mt-1 flex-shrink-0" />
                              <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
                                <span>หารกันระหว่าง:</span>
                                {expense.participants.map(id => {

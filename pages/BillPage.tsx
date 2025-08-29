@@ -29,7 +29,6 @@ const BillPage: React.FC = () => {
         if (storedBill) {
           let parsedBill: Bill = JSON.parse(storedBill);
           
-          // Migration for members without colors
           let membersUpdated = false;
           const updatedMembers = parsedBill.members.map(member => {
             if (!member.color) {
@@ -145,15 +144,16 @@ const BillPage: React.FC = () => {
         <h1 className="text-3xl sm:text-4xl font-bold text-text-primary truncate">{bill.title}</h1>
         <div className="flex items-center gap-2 flex-shrink-0">
             <Button onClick={copyLink} variant="outline" className="flex items-center gap-2 w-full sm:w-auto justify-center">
-                <LinkIcon className="h-5 w-5"/>
+                <LinkIcon className="h-6 w-6"/>
                 {copied ? 'คัดลอกลิงก์แล้ว!' : 'แชร์บิลให้เพื่อน'}
             </Button>
         </div>
       </div>
       
+      <Summary settlements={settlements} />
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
-          <Summary settlements={settlements} />
           <ExpenseList 
             expenses={bill.expenses} 
             members={bill.members} 
@@ -167,10 +167,10 @@ const BillPage: React.FC = () => {
               onClick={() => { setEditingExpense(null); setExpenseModalOpen(true); }} 
               className="flex-1 flex items-center justify-center gap-2"
             >
-                <PlusCircleIcon className="h-5 w-5" /> เพิ่มค่าใช้จ่าย
+                <PlusCircleIcon className="h-6 w-6" /> เพิ่มค่าใช้จ่าย
             </Button>
             <Button onClick={() => setMemberModalOpen(true)} variant="secondary" className="flex-1 flex items-center justify-center gap-2">
-                <UserPlusIcon className="h-5 w-5" /> เพิ่มสมาชิก
+                <UserPlusIcon className="h-6 w-6" /> เพิ่มสมาชิก
             </Button>
           </div>
           <MemberList 

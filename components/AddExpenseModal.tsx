@@ -55,13 +55,10 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ isOpen, onClose, onSa
 
   const handleAmountBlur = useCallback(() => {
     const value = amount.trim();
-    // Only evaluate if it looks like an expression with + or -
     if (!/[+-]/.test(value)) {
       return;
     }
 
-    // Regex to validate a simple expression of numbers, +, -
-    // No operators at the start or end, no consecutive operators.
     const validExpressionRegex = /^\d+(\.\d+)?([+\-]\d+(\.\d+)?)*$/;
     const sanitizedValue = value.replace(/\s/g, '');
 
@@ -72,7 +69,6 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ isOpen, onClose, onSa
           setAmount(String(result));
         }
       } catch (error) {
-        // Silently fail, leaving the user's input for them to correct.
         console.error("Could not evaluate expression:", error);
       }
     }
@@ -109,22 +105,22 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ isOpen, onClose, onSa
         />
         <div>
           <label className="block text-sm font-medium text-text-secondary mb-1">จ่ายโดย</label>
-          <select value={paidById} onChange={e => setPaidById(e.target.value)} className="w-full p-2 border border-border bg-surface text-text-primary focus:ring-primary focus:border-primary">
+          <select value={paidById} onChange={e => setPaidById(e.target.value)} className="w-full p-3 border border-border bg-surface text-text-primary focus:ring-primary focus:border-primary text-base rounded-none appearance-none">
             {members.map(member => <option key={member.id} value={member.id}>{member.name}</option>)}
           </select>
         </div>
         <div>
           <label className="block text-sm font-medium text-text-secondary mb-2">หารกันระหว่าง</label>
-          <div className="flex gap-2 mb-2">
+          <div className="flex gap-4 mb-2">
             <button onClick={selectAllParticipants} className="text-sm text-primary hover:underline">เลือกทั้งหมด</button>
             <button onClick={clearAllParticipants} className="text-sm text-primary hover:underline">ล้างทั้งหมด</button>
           </div>
           <div className="max-h-40 overflow-y-auto space-y-1 p-2 border border-border">
             {members.map(member => (
               <label key={member.id} className="flex items-center gap-3 p-2 hover:bg-border cursor-pointer">
-                <input type="checkbox" checked={participants.includes(member.id)} onChange={() => handleParticipantChange(member.id)} className="h-4 w-4 text-primary focus:ring-primary bg-surface border-border"/>
-                <div className="flex items-center gap-2">
-                  <span className="h-3 w-3" style={{ backgroundColor: member.color }}></span>
+                <input type="checkbox" checked={participants.includes(member.id)} onChange={() => handleParticipantChange(member.id)} className="h-5 w-5 text-primary focus:ring-primary bg-surface border-border rounded-none"/>
+                <div className="flex items-center gap-2 text-base">
+                  <span className="h-4 w-4" style={{ backgroundColor: member.color }}></span>
                   <span>{member.name}</span>
                 </div>
               </label>

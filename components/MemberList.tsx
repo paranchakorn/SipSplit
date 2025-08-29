@@ -18,16 +18,16 @@ const MemberList: React.FC<MemberListProps> = ({ members, onEdit, onDelete }) =>
         {members.length > 0 ? (
           <ul className="space-y-3">
             {members.map(member => (
-              <li key={member.id} className="flex items-center justify-between p-2 bg-surface rounded-md">
+              <li key={member.id} className="flex items-center justify-between p-3 bg-surface">
                 <div className="min-w-0 mr-2">
                     <MemberChip member={member} />
                 </div>
                 <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
-                    <button onClick={() => onEdit(member)} aria-label={`แก้ไข ${member.name}`} className="p-1 text-text-secondary hover:text-primary rounded-full hover:bg-border transition-colors">
-                        <PencilSquareIcon className="h-5 w-5" />
+                    <button onClick={() => onEdit(member)} aria-label={`แก้ไข ${member.name}`} className="p-2 text-text-secondary hover:text-primary hover:bg-border transition-colors">
+                        <PencilSquareIcon className="h-6 w-6" />
                     </button>
-                    <button onClick={() => onDelete(member.id)} aria-label={`ลบ ${member.name}`} className="p-1 text-text-secondary hover:text-red-400 rounded-full hover:bg-red-900/50 transition-colors">
-                        <TrashIcon className="h-5 w-5" />
+                    <button onClick={() => onDelete(member.id)} aria-label={`ลบ ${member.name}`} className="p-2 text-text-secondary hover:text-red-400 hover:bg-red-900/50 transition-colors">
+                        <TrashIcon className="h-6 w-6" />
                     </button>
                 </div>
               </li>

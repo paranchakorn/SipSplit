@@ -28,7 +28,7 @@ const MemberChip: React.FC<MemberChipProps> = ({ member, className = '' }) => {
 
   return (
     <div 
-      className={`inline-flex items-center px-2.5 py-1 rounded-full text-sm font-medium whitespace-nowrap ${className}`}
+      className={`inline-flex items-center px-3 py-1.5 text-base font-medium whitespace-nowrap border-2 border-transparent ${className}`}
       style={chipStyle}
     >
       {member.name}
