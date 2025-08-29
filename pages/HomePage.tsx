@@ -33,7 +33,7 @@ const HomePage: React.FC = () => {
         <Card className="w-full">
             <div className="p-6 sm:p-8 text-center">
                 <h1 className="text-3xl sm:text-4xl font-bold text-primary mb-2">Sip & Split</h1>
-                <p className="text-base sm:text-lg text-text-secondary mb-8">สร้างบิลและหารค่าใช้จ่าย กินไม่เท่ากัน ก็หารไม่เท่ากันได้ อิอิ</p>
+                <p className="text-base sm:text-lg text-text-secondary mb-8">สร้างบิลและหารค่าใช้จ่ายอย</p>
                 <div className="space-y-4">
                     <Input 
                         type="text"

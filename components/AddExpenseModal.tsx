@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Member, Expense } from '../types';
 import Modal from './ui/Modal';
 import Input from './ui/Input';
@@ -53,6 +53,31 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ isOpen, onClose, onSa
     setParticipants([]);
   };
 
+  const handleAmountBlur = useCallback(() => {
+    const value = amount.trim();
+    // Only evaluate if it looks like an expression with + or -
+    if (!/[+-]/.test(value)) {
+      return;
+    }
+
+    // Regex to validate a simple expression of numbers, +, -
+    // No operators at the start or end, no consecutive operators.
+    const validExpressionRegex = /^\d+(\.\d+)?([+\-]\d+(\.\d+)?)*$/;
+    const sanitizedValue = value.replace(/\s/g, '');
+
+    if (validExpressionRegex.test(sanitizedValue)) {
+      try {
+        const result = new Function(`return ${sanitizedValue}`)();
+        if (typeof result === 'number' && isFinite(result)) {
+          setAmount(String(result));
+        }
+      } catch (error) {
+        // Silently fail, leaving the user's input for them to correct.
+        console.error("Could not evaluate expression:", error);
+      }
+    }
+  }, [amount]);
+
   const handleSubmit = () => {
     const numericAmount = parseFloat(amount);
     if (description.trim() && !isNaN(numericAmount) && numericAmount > 0 && paidById && participants.length > 0) {
@@ -74,10 +99,17 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ isOpen, onClose, onSa
     <Modal isOpen={isOpen} onClose={onClose} title={expenseToEdit ? "แก้ไขค่าใช้จ่าย" : "เพิ่มค่าใช้จ่ายใหม่"}>
       <div className="space-y-4">
         <Input type="text" placeholder="รายละเอียด" value={description} onChange={e => setDescription(e.target.value)} />
-        <Input type="number" placeholder="จำนวนเงิน" value={amount} onChange={e => setAmount(e.target.value)} />
+        <Input 
+          type="text" 
+          inputMode="decimal"
+          placeholder="จำนวนเงิน (เช่น 50+120-10)" 
+          value={amount} 
+          onChange={e => setAmount(e.target.value)} 
+          onBlur={handleAmountBlur}
+        />
         <div>
           <label className="block text-sm font-medium text-text-secondary mb-1">จ่ายโดย</label>
-          <select value={paidById} onChange={e => setPaidById(e.target.value)} className="w-full p-2 border border-border rounded-md bg-surface text-text-primary focus:ring-primary focus:border-primary">
+          <select value={paidById} onChange={e => setPaidById(e.target.value)} className="w-full p-2 border border-border bg-surface text-text-primary focus:ring-primary focus:border-primary">
             {members.map(member => <option key={member.id} value={member.id}>{member.name}</option>)}
           </select>
         </div>
@@ -87,12 +119,12 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ isOpen, onClose, onSa
             <button onClick={selectAllParticipants} className="text-sm text-primary hover:underline">เลือกทั้งหมด</button>
             <button onClick={clearAllParticipants} className="text-sm text-primary hover:underline">ล้างทั้งหมด</button>
           </div>
-          <div className="max-h-40 overflow-y-auto space-y-1 p-2 border border-border rounded-md">
+          <div className="max-h-40 overflow-y-auto space-y-1 p-2 border border-border">
             {members.map(member => (
-              <label key={member.id} className="flex items-center gap-3 p-2 hover:bg-border rounded cursor-pointer">
-                <input type="checkbox" checked={participants.includes(member.id)} onChange={() => handleParticipantChange(member.id)} className="h-4 w-4 rounded text-primary focus:ring-primary bg-surface border-border"/>
+              <label key={member.id} className="flex items-center gap-3 p-2 hover:bg-border cursor-pointer">
+                <input type="checkbox" checked={participants.includes(member.id)} onChange={() => handleParticipantChange(member.id)} className="h-4 w-4 text-primary focus:ring-primary bg-surface border-border"/>
                 <div className="flex items-center gap-2">
-                  <span className="h-3 w-3 rounded-full" style={{ backgroundColor: member.color }}></span>
+                  <span className="h-3 w-3" style={{ backgroundColor: member.color }}></span>
                   <span>{member.name}</span>
                 </div>
               </label>
