@@ -2,22 +2,40 @@ import React from 'react';
 import { Expense, Member } from '../types';
 import Card from './ui/Card';
 import MemberChip from './ui/MemberChip';
-import { UserIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
+import Button from './ui/Button';
+import { UserIcon, PencilSquareIcon, TrashIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
 
 interface ExpenseListProps {
   expenses: Expense[];
   members: Member[];
   onEdit: (expense: Expense) => void;
   onDelete: (expenseId: string) => void;
+  onAdd: () => void;
+  isAddDisabled: boolean;
+  totalExpenses: number;
 }
 
-const ExpenseList: React.FC<ExpenseListProps> = ({ expenses, members, onEdit, onDelete }) => {
+const ExpenseList: React.FC<ExpenseListProps> = ({ expenses, members, onEdit, onDelete, onAdd, isAddDisabled, totalExpenses }) => {
   const getMember = (id: string): Member | undefined => members.find(m => m.id === id);
 
   return (
     <Card>
       <div className="p-4 sm:p-6">
-        <h2 className="text-xl font-semibold mb-4">รายการค่าใช้จ่าย</h2>
+        <div className="flex flex-wrap items-center justify-between mb-4 gap-4">
+            <div className="flex items-baseline gap-3">
+                <h2 className="text-xl font-semibold">รายการค่าใช้จ่าย</h2>
+                {expenses.length > 0 && (
+                    <span className="text-base text-text-secondary font-medium">
+                        (รวม: {totalExpenses.toFixed(2)})
+                    </span>
+                )}
+            </div>
+            <Button onClick={onAdd} disabled={isAddDisabled} className="px-3 py-2 text-sm flex items-center gap-1.5 whitespace-nowrap">
+                <PlusCircleIcon className="h-5 w-5" />
+                เพิ่มค่าใช้จ่าย
+            </Button>
+        </div>
+
         {expenses.length > 0 ? (
           <div className="space-y-4">
             {expenses.map(expense => {

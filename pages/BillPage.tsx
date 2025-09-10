@@ -10,7 +10,7 @@ import Summary from '../components/Summary';
 import AddMemberModal from '../components/AddMemberModal';
 import AddExpenseModal from '../components/AddExpenseModal';
 import EditMemberModal from '../components/EditMemberModal';
-import { PlusCircleIcon, UserPlusIcon, LinkIcon } from '@heroicons/react/24/outline';
+import { LinkIcon } from '@heroicons/react/24/outline';
 
 const BillPage: React.FC = () => {
   const { billId } = useParams<{ billId: string }>();
@@ -134,6 +134,11 @@ const BillPage: React.FC = () => {
     return [];
   }, [bill]);
 
+  const totalExpenses = useMemo(() => {
+    if (!bill) return 0;
+    return bill.expenses.reduce((sum, expense) => sum + expense.amount, 0);
+  }, [bill]);
+
   if (!bill) {
     return <div className="text-center p-10">กำลังโหลดข้อมูลบิล...</div>;
   }
@@ -141,24 +146,12 @@ const BillPage: React.FC = () => {
   return (
     <div className="space-y-6">
       <h1 className="text-3xl sm:text-4xl font-bold text-text-primary truncate">{bill.title}</h1>
-      
-      <div className="flex flex-col sm:flex-row gap-4">
-        <Button onClick={() => setMemberModalOpen(true)} variant="secondary" className="flex-1 flex items-center justify-center gap-2">
-            <UserPlusIcon className="h-6 w-6" /> เพิ่มสมาชิก
-        </Button>
-        <Button 
-            onClick={() => { setEditingExpense(null); setExpenseModalOpen(true); }} 
-            className="flex-1 flex items-center justify-center gap-2"
-            disabled={bill.members.length === 0}
-        >
-            <PlusCircleIcon className="h-6 w-6" /> เพิ่มค่าใช้จ่าย
-        </Button>
-      </div>
 
       <MemberList 
         members={bill.members} 
         onEdit={setEditingMember}
         onDelete={deleteMember}
+        onAdd={() => setMemberModalOpen(true)}
       />
       
       <ExpenseList 
@@ -166,6 +159,9 @@ const BillPage: React.FC = () => {
         members={bill.members} 
         onEdit={(expense) => { setEditingExpense(expense); setExpenseModalOpen(true); }}
         onDelete={deleteExpense}
+        onAdd={() => { setEditingExpense(null); setExpenseModalOpen(true); }}
+        isAddDisabled={bill.members.length === 0}
+        totalExpenses={totalExpenses}
       />
 
       <Summary settlements={settlements} />
